@@ -16,11 +16,9 @@ import {ChecklistModel} from '../../providers/checklist-model/checklist-model';
 })
 export class ChecklistPage {
 
-  // title = HomePage.checklists[0];
-  // items = [];
-  public checklist: any;
+  public checklist:ChecklistModel;
 
-  constructor(private navCtrl: NavController, public dataService: Data, public alertCtrl: AlertController, params: NavParams) {
+  constructor(public navCtrl: NavController, public dataService: Data, public alertCtrl: AlertController, params: NavParams) {
     this.checklist = params.get("checklist");
   }
 
@@ -70,12 +68,7 @@ export class ChecklistPage {
         {
           text: 'Save',
           handler: data => {
-            let index = this.checklist.items.indexOf(item);
-
-            if (index > -1) {
-              this.checklist.items[index].name = data.name;
-              this.save();
-            }
+            this.checklist.renameItem(item, data.name);
           }
         }
       ]
@@ -84,28 +77,35 @@ export class ChecklistPage {
   }
 
   removeItem(item) {
-    let index = this.checklist.items.indexOf(item);
-
-    if(index > -1) {
-      this.checklist.items.splice(index, 1);
-    }
+    this.checklist.removeItem(item);
+    // let index = this.checklist.items.indexOf(item);
+    //
+    // if(index > -1) {
+    //   this.checklist.items.splice(index, 1);
+    // }
   }
 
-  uncheckItems(item) {
+  uncheckItems(): void {
     //will set checked to false for all the items.
-    let index = this.checklist.items.indexOf(item);
 
-    console.log(index);
   }
 
-  toggleItem(item) {
-    let index = this.checklist.items.indexOf(item);
+  toggleItem(item): void {
+    //
+    // this.checklist.toggleItem(item);
+    // let index = this.checklist.items.indexOf(item);
+    //
+    // if (index > -1) {
+    //   if (item.checked == false) {
+    //     this.checklist.items[index].checked = true;
+    //   }
+    // }
 
-    if (index > -1) {
-      if(item.checked == false) {
-        this.checklist.items[index].checked = true;
+    this.checklist.items.forEach((item) => {
+      if(item.checked){
+        this.checklist.toggleItem(item);
       }
-    }
+    })
   }
 
   save(): void {

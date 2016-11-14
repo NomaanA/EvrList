@@ -49,5 +49,16 @@ export class ChecklistModel {
     item.check= !item.checked;
     this.checklistObserver.next(true);
   }
+
+
+  removeItem(item):void {
+    let index = this.items.indexOf(item);
+
+    if(index > -1){
+      this.items.splice(index, 1 );
+    }
+
+    this.checklistObserver.next(true);
+  }
 }
 
